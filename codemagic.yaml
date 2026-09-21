@@ -1,0 +1,18 @@
+workflows:
+  android-debug:
+    name: Plateau Rugby ROC Android APK
+    max_build_duration: 60
+    environment:
+      node: 20
+      java: 17
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Add Android platform and sync web files
+        script: |
+          npx cap add android || true
+          npx cap sync android
+      - name: Build debug APK
+        script: cd android && ./gradlew assembleDebug
+    artifacts:
+      - android/app/build/outputs/**/*.apk
